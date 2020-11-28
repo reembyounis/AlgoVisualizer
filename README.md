@@ -11,3 +11,10 @@ Week 2:
 Week 3:
 - Creating repository.
 - Started writing A* script in a simple way to see how the user could interact with it.
+
+Week 4:
+- Done writing simple A* and visualizing it in 3D.
+
+Week 5:
+- Adding colors to the scene to see.
+(haven't had a good progress this week).
