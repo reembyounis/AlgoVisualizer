@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,23 +8,40 @@ public class GridMaker : MonoBehaviour
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
-	public GameObject something;
+	public GameObject grids;
 	Node[,] grid;
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 	public List<Node> path;
 	public List<Node> open=new List<Node>();
+	public GameObject Cube;
 
 	void Start()
 	{
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-		CreateGrid();
-		
+		Update();
 	}
 
-	void CreateGrid()
+    void Update()
+    {
+		if (Input.GetMouseButtonDown(0))
+		{
+			Vector3 mousePos = Input.mousePosition;
+			mousePos.z = Random.Range(-9f, 9f);
+			Vector3 spawnPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+			Instantiate(Cube, spawnPos, Quaternion.identity);
+		}
+
+		else if (Input.GetKeyDown(KeyCode.Space))
+        {
+			CreateGrid();
+        }
+	}
+
+    void CreateGrid()
     {
 		grid = new Node[gridSizeX, gridSizeY];
 		Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
@@ -74,17 +91,18 @@ public class GridMaker : MonoBehaviour
 		return grid[x, y];
 	}
 
-	void OnDrawGizmos()
+	void DrawIt()
 	{
-		Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+		//Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
 		if (grid != null)
 		{
 			foreach (Node n in grid)
 			{
-				GameObject cube = Instantiate(something, n.worldPosition, Quaternion.identity);
+				GameObject cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
 				cube.transform.localScale = Vector3.one * (nodeDiameter - .1f);
 				Renderer rend = cube.GetComponent<Renderer>();
+				
 				if (!n.walkable)
                 {
 					rend.material.color = Color.red;
@@ -93,6 +111,7 @@ public class GridMaker : MonoBehaviour
 				else if (open.Contains(n) && !path.Contains(n))
 				{
 					rend.material.color = Color.green;
+
 				}
 
 				else if(path.Contains(n))
