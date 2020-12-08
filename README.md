@@ -18,3 +18,8 @@ Week 4:
 Week 5:
 - Adding colors to the scene to see.
 (haven't had a good progress this week).
+
+Week 6:
+some updates on adding obsatcles:
+- left click on mouse to add obstacle.
+- space to see the path.
