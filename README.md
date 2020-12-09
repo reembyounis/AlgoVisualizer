@@ -23,3 +23,7 @@ Week 6:
 some updates on adding obsatcles:
 - left click on mouse to add obstacle.
 - space to see the path.
+
+Week 7:
+- adding menu.
+- adding options, such as random maze.
