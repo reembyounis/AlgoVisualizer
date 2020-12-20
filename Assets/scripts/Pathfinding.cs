@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Pathfinding : MonoBehaviour {
 
@@ -71,8 +72,8 @@ public class Pathfinding : MonoBehaviour {
 			currentNode = currentNode.parent;
 		}
 		path.Reverse();
-
-		grid.path = path;
+		
+		grid.pathing = path;
 
 	}
 
