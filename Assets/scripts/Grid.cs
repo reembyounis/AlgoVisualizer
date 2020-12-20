@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,7 +11,7 @@ public class Grid : MonoBehaviour {
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
     public GameObject Cube;
-    public List<Node> path = new List<Node>();
+    public List<Node> pathing;
 	public List<Node> open = new List<Node>();
     public GameObject grids;
 	public Transform spawnValue;
@@ -27,7 +27,7 @@ public class Grid : MonoBehaviour {
     {
 		if (Input.GetMouseButtonDown(0))
 		{
-			Vector3 spawnPos=new Vector3(Random.Range(-spawnValue.position.x,spawnValue.position.x),1,Random.Range(-spawnValue.position.z,spawnValue.position.z));
+			Vector3 spawnPos=new Vector3(Random.Range(-spawnValue.position.x,spawnValue.position.x),5,Random.Range(-spawnValue.position.z,spawnValue.position.z));
 			Instantiate(Cube, spawnPos, Quaternion.identity);
 
 		}
@@ -82,31 +82,52 @@ public class Grid : MonoBehaviour {
 
 	void OnDrawGizmos()
 	{
-		//Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+		StartCoroutine(draw());
+	}
 
+	IEnumerator draw(){
+		//Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+		open.Reverse();
 		if (grid != null)
 		{
 			foreach (Node n in grid)
 			{
-                
 				GameObject cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
-				cube.transform.localScale = Vector3.one * (nodeDiameter - .1f);
+				cube.transform.localScale = Vector3.one * (nodeDiameter- .05f);
 				Renderer rend = cube.GetComponent<Renderer>();
 				
+				n.renderer=rend;
+
 				if (!n.walkable)
-                {
-					rend.material.color = Color.red;
-
-				}
-				else if (open.Contains(n) && !path.Contains(n))
 				{
-					rend.material.color = Color.green;
-
+					rend.material.color = Color.red;
 				}
+			}
 
-				else if(path.Contains(n))
-                {
-					rend.material.color = Color.black;
+			Node[,] newGrid = new Node[gridSizeX,gridSizeY];
+			int row=0;
+			int col=0;
+
+			for(int i=gridSizeX-1;i>=0;i--){
+				for(int j=gridSizeY-1;j>=0;j--){
+					newGrid[row,col]=grid[i,j];
+					col++;
+					if(col==gridSizeY){
+						row++;
+						col=0;
+					}
+				}
+			}
+
+			foreach(Node n in newGrid){
+				if(open.Contains(n)){
+					if(pathing.Contains(n)){
+						n.renderer.material.color = Color.black;
+					}
+					else{
+						n.renderer.material.color = Color.green;
+					}
+					yield return new WaitForSeconds(0.05f);
 				}
 			}
 		}
