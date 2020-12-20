@@ -27,3 +27,6 @@ some updates on adding obsatcles:
 Week 7:
 - adding menu.
 - adding options, such as random maze.
+
+Week 8:
+while playing, click escp to pause.
