@@ -30,3 +30,10 @@ Week 7:
 
 Week 8:
 - while playing, click escp to pause.
+
+week 9:
+- no progress due to other obligations
+
+week 10: 
+- added bfs, dfs, dikstra algorithms.
+
