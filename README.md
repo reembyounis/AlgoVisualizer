@@ -35,5 +35,5 @@ week 9:
 - no progress due to other obligations
 
 week 10: 
-- added bfs, dfs, dikstra algorithms.
+- added bfs, dfs, dijkstra algorithms.
 
