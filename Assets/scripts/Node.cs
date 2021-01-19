@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Node {
@@ -11,6 +11,7 @@ public class Node {
 	public int hCost;
 	public Node parent;
 	public Renderer renderer;
+	public GameObject game;
 	
 	public Node(bool Walkable, Vector3 WorldPos, int X, int Y) {
 		walkable = Walkable;

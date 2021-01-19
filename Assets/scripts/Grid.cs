@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,11 +15,14 @@ public class Grid : MonoBehaviour {
 	public List<Node> open = new List<Node>();
     public GameObject grids;
 	public Transform spawnValue;
+	public GameObject Sphere;
+	public float speed;
 
 	void Awake() {
 		nodeDiameter = nodeRadius*2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
+		grid = new Node[gridSizeX,gridSizeY];
 		Update();
 	}
 
@@ -39,7 +42,6 @@ public class Grid : MonoBehaviour {
 	}
 
 	void CreateGrid() {
-		grid = new Node[gridSizeX,gridSizeY];
 		Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y/2;
 
 		for (int x = 0; x < gridSizeX; x ++) {
@@ -94,41 +96,68 @@ public class Grid : MonoBehaviour {
 			{
 				GameObject cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
 				cube.transform.localScale = Vector3.one * (nodeDiameter- .05f);
-				Renderer rend = cube.GetComponent<Renderer>();
-				
-				n.renderer=rend;
+
+				n.game=cube;
 
 				if (!n.walkable)
 				{
-					rend.material.color = Color.red;
+					n.game.GetComponent<Renderer>().material.color=Color.red;
 				}
 			}
 
-			Node[,] newGrid = new Node[gridSizeX,gridSizeY];
-			int row=0;
-			int col=0;
+			List<Node> left = new List<Node>();
+			List<Node> right = new List<Node>();
 
 			for(int i=gridSizeX-1;i>=0;i--){
+				int flag = 0;
 				for(int j=gridSizeY-1;j>=0;j--){
-					newGrid[row,col]=grid[i,j];
-					col++;
-					if(col==gridSizeY){
-						row++;
-						col=0;
+
+					if(open.Contains(grid[i,j]) && flag==0){
+						left.Add(grid[i,j]);
+						if(pathing.Contains(grid[i,j])){
+							flag=1;
+						}
+					}
+
+					else if(open.Contains(grid[i,j]) && flag==1){
+						right.Add(grid[i,j]);
 					}
 				}
-			}
+				flag = 0;
 
-			foreach(Node n in newGrid){
-				if(open.Contains(n)){
-					if(pathing.Contains(n)){
-						n.renderer.material.color = Color.black;
+				int l=0,r=0;
+				left.Reverse();
+				while(l<left.Count || r<right.Count){
+					if(l==left.Count){
+
+						right[r].game.GetComponent<Renderer>().material.color=Color.green;
+
+						r++;
 					}
+
+					else if(r==right.Count){
+						left[l].game.GetComponent<Renderer>().material.color=Color.green;
+
+						l++;
+					}
+
 					else{
-						n.renderer.material.color = Color.green;
+						right[r].game.GetComponent<Renderer>().material.color=Color.green;
+						left[l].game.GetComponent<Renderer>().material.color=Color.green;
+						r++;
+						l++;
 					}
 					yield return new WaitForSeconds(0.05f);
 				}
+
+				left.Clear();
+				right.Clear();	
+			}
+
+			for(int i=0;i<pathing.Count;i++){
+				float step = speed*Time.deltaTime;
+				Sphere.transform.position=Vector3.MoveTowards(Sphere.transform.position,new Vector3(pathing[i].worldPosition.x,1,pathing[i].worldPosition.z),step);
+				yield return new WaitForSeconds(0.05f);
 			}
 		}
 	}
