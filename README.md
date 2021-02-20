@@ -37,3 +37,11 @@ week 9:
 week 10: 
 - added bfs, dfs, dijkstra algorithms.
 
+week 11-14:
+- no progress due to final exams.
+
+week 15:
+- added sorting algortihms
+- menus
+- 
+
