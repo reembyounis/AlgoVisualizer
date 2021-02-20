@@ -43,5 +43,3 @@ week 11-14:
 week 15:
 - added sorting algortihms
 - menus
-- 
-
