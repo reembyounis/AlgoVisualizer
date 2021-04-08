@@ -41,5 +41,11 @@ week 11-14:
 - no progress due to final exams.
 
 week 15:
-- added sorting algortihms
+- added sorting algorithms.
 - menus
+
+week 16:
+- continued adding sorting algorithms.
+
+week 17-19: 
+- no progress.
