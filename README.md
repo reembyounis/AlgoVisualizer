@@ -49,3 +49,8 @@ week 16:
 
 week 17-19: 
 - no progress.
+
+week 20-june:
+- designed UI
+- added algorithms
+- finished project
