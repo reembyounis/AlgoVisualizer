@@ -1,4 +1,4 @@
-# pathItVisualizer
+# AlgoVisualizer
 
 Week 1:
 - Reading about commonly used pathfinding methods.
