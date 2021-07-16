@@ -8,6 +8,8 @@ public class MergeSort : MonoBehaviour
     public GameObject cube;
     public int num;
 
+    Vector3 newVec = new Vector3();
+
     void Start()
     {
         int j = 0;
@@ -22,11 +24,11 @@ public class MergeSort : MonoBehaviour
             ObjectArr[i] = go;
         }
 
-        for(int i=0;i<num;i++){
-            Debug.Log(ObjectArr[i].transform.position.y);
-            Debug.Log(",");
+        for (int i = 0; i < num; i++)
+        {
+            Debug.Log(ObjectArr[i].transform.localPosition);
         }
-        Debug.Log("*");
+        Debug.Log("*****");
 
         Update();
     }
@@ -35,150 +37,143 @@ public class MergeSort : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MergeSorting(ObjectArr,0, num - 1);
+            MergeSorting(0, num - 1);
         }
     }
 
-    void MergeSorting(GameObject[] ObjectArr, int start, int end)
+    void MergeSorting(int start, int end)
     {
-        if(start<end){
+        if (start < end)
+        {
+            int mid = start + (end - start) / 2;
 
-            int mid = start + (end-start) / 2;
+            MergeSorting(start, mid);
+            MergeSorting(mid + 1, end);
 
-            MergeSorting(ObjectArr, start, mid);
-            MergeSorting(ObjectArr, mid + 1, end);
+            StartCoroutine(merge(start, mid, end));
 
-            StartCoroutine(merge(ObjectArr, start, mid, end));      
+            /*for (int i = 0; i < num; i++)
+            {
+                Debug.Log(ObjectArr[i].transform.localPosition);
+            }
+            Debug.Log("*****");*/
         }
     }
 
-    
-    IEnumerator merge(GameObject[] ObjectArr, int p, int q, int r) {
 
-        int i, j, k;
-        int n1 = q - p + 1;
-        int n2 = r - q;
-        GameObject[] L = new GameObject[n1];
-        GameObject[] R = new GameObject[n2];
+    IEnumerator merge(int low, int mid, int high)
+    {
+        Debug.Log("low " + low);
+        Debug.Log("mid " + mid);
+        Debug.Log("high " + high);
+        Debug.Log("$$$$$$");
+        int leftIndex = mid - low + 1;
+        int rightIndex = high - mid;
+        int mergeIndex = mid - low + 1;
 
-        for (i = 0; i < n1; i++) {
-            L[i] = ObjectArr[p + i];
-        }
-        
-        for (j = 0; j < n2; j++) {
-            R[j] = ObjectArr[q + 1 + j];
-        }
+        GameObject[] tempList = new GameObject[num];
+        int[] templistIndex = new int[num];
 
-        i = 0;
-        j = 0;
-        k = 0;
+        while (leftIndex < mid && rightIndex < high)
+        {
 
-        // +p
+            if (ObjectArr[leftIndex].transform.localPosition.y < ObjectArr[rightIndex].transform.localPosition.y)
+            {
+                tempList[mergeIndex] = ObjectArr[leftIndex];
+                templistIndex[mergeIndex] = leftIndex;
 
-        GameObject[] temp = new GameObject[r-p+1];
+                //tempList[mergeIndex].transform.localPosition = ObjectArr[leftIndex].transform.localPosition;
 
-        while (i < n1 && j < n2) {
-            if (L[i].transform.localPosition.y <= R[j].transform.localPosition.y) {
-               temp[k] = L[i];
-               i++;
-            } else {
-               temp[k] = R[j];
-               j++;
+                leftIndex++;
             }
-            k++;
-        }
-        
-        while (i < n1) {
-            temp[k] = L[i];
-            i++;
-            k++;
-        }
+            else
+            {
+                tempList[mergeIndex] = ObjectArr[rightIndex];
+                templistIndex[mergeIndex] = rightIndex;
+                //tempList[mergeIndex].transform.localPosition = ObjectArr[rightIndex].transform.localPosition;
 
-        while (j < n2) {
-            temp[k] = R[j];
-            j++;
-            k++;
-        }
 
-        if(p==0 && r==num-1){
-            for(i=0;i<num;i++){
-                Debug.Log(temp[i].transform.position.y);
-                Debug.Log(",");
+                rightIndex++;
             }
+            mergeIndex++;
         }
 
-        /*GameObject[] temp = new GameObject[end-start+1];
-        int[] index = new int[end-start+1];
+        while (leftIndex < mid)
+        {
 
-        int i = start, j = mid+1, k = 0;
+            tempList[mergeIndex] = ObjectArr[leftIndex];
+            templistIndex[mergeIndex] = leftIndex;
+            //tempList[mergeIndex].transform.localPosition = ObjectArr[leftIndex].transform.localPosition;
 
-        while(i <= mid && j <= end) {
-            if(ObjectArr[i].transform.localScale.y < ObjectArr[j].transform.localScale.y) {
-    
-                temp[k] = ObjectArr[i];
-                index[k]=i;
-                k += 1; i += 1;
-            }
-            else {
-                temp[k] = ObjectArr[j];
-                index[k]=j;
-                k += 1; j += 1;
-            }
+            leftIndex++;
+            mergeIndex++;
         }
 
-        while(i <= mid) {
-            temp[k] = ObjectArr[i];
-            index[k]=i;
-            k += 1; i += 1;
+        while (rightIndex < high)
+        {
+
+            tempList[mergeIndex] = ObjectArr[rightIndex];
+            templistIndex[mergeIndex] = rightIndex;
+            //tempList[mergeIndex].transform.localPosition = ObjectArr[rightIndex].transform.localPosition;
+
+
+            rightIndex++;
+            mergeIndex++;
         }
 
-        while(j <= end) {
-            temp[k] = ObjectArr[j];
-            index[k]=j;
-            k += 1; j += 1;
+        /*for (int i = 0; i < mergeIndex; i++)
+        {
+            Debug.Log(tempList[i].transform.localPosition);
         }
 
-        if(start==0 && end==num-1){
-            for(i=0;i<num;i++){
-                Debug.Log(temp[i].transform.position.y);
-                Debug.Log(",");
-            }*/
+        Debug.Log("templist *******");*/
+
+        for (int i = mid - low + 1; i < mergeIndex; i++)
+        {
+            Debug.Log("templist" + tempList[i].transform.localPosition);
+            Debug.Log("objectarr" + ObjectArr[i].transform.localPosition);
+            Debug.Log("=======");
 
 
-        /*for(i=start;i<k;i++){
-            //ObjectArr[i].GetComponent<Renderer>().material.color=Color.yellow;
+            /*ObjectArr[i].transform.localPosition = tempList[i].transform.localPosition;
 
-            //yield return new WaitForSeconds(2f);
+            newVec = ObjectArr[i].transform.position;
+            newVec.y = (ObjectArr[i].transform.localScale.y) / 2;
 
-            ObjectArr[start+i].transform.localPosition=temp[i-start].transform.localPosition;
+            ObjectArr[i].transform.position = newVec;
 
-            Vector3 newfirst=ObjectArr[start+i].transform.position;
-            newfirst.y=(ObjectArr[start+i].transform.localScale.y)/2;
-            ObjectArr[start+i].transform.position=newfirst;
+            ObjectArr[i] = tempList[i];*/
 
-            ObjectArr[start+i]=temp[i-start];
 
+            /*Debug.Log("templist" + tempList[i].transform.localPosition);
+            Debug.Log("objectarr" + ObjectArr[i].transform.localPosition);
+            Debug.Log("^^^^^^^");*/
+
+            /*Debug.Log("templist" + templistIndex[i]);
             
-            
-            Vector3 tmp=ObjectArr[i].transform.position;
-            ObjectArr[i].transform.localPosition=temp[i-start].transform.localPosition;
+            Debug.Log("^^^^^^^");*/
 
-            Vector3 newfirst=ObjectArr[i].transform.position;
-            newfirst.y=(ObjectArr[i].transform.localScale.y)/2;
-            newfirst.z=ObjectArr[i].transform.localScale.z-10;
-            ObjectArr[i].transform.position=newfirst;
+            Vector3 tmp = ObjectArr[i].transform.localPosition;
+            ObjectArr[i].transform.localPosition = ObjectArr[templistIndex[i]].transform.localPosition;
 
-            ObjectArr[index[i-start]].transform.localPosition = tmp;
+            Vector3 newfirst = ObjectArr[i].transform.position;
+            newfirst.y = (ObjectArr[i].transform.localScale.y) / 2;
 
-            Vector3 newsecond=ObjectArr[index[i-start]].transform.position;
-            newsecond.y=(ObjectArr[index[i-start]].transform.localScale.y)/2;
-            ObjectArr[index[i-start]].transform.position=newsecond;
+            ObjectArr[i].transform.position = newfirst;
 
-            GameObject something = ObjectArr[i];
-            ObjectArr[i] = ObjectArr[index[i-start]];
-            ObjectArr[index[i-start]] = something;
+            ObjectArr[templistIndex[i]].transform.localPosition = tmp;
 
-        }*/
+            Vector3 newsecond = ObjectArr[templistIndex[i]].transform.position;
+            newsecond.y = (ObjectArr[templistIndex[i]].transform.localScale.y) / 2;
+            ObjectArr[templistIndex[i]].transform.position = newsecond;
+
+            GameObject temp = ObjectArr[i];
+            ObjectArr[i] = ObjectArr[templistIndex[i]];
+            ObjectArr[templistIndex[i]] = temp;
+
+            Debug.Log("objectarr" + ObjectArr[i].transform.localPosition);
+            Debug.Log("objectarr" + ObjectArr[templistIndex[i]].transform.localPosition);
+        }
 
         yield return new WaitForSeconds(0.1f);
 

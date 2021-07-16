@@ -4,58 +4,78 @@ using UnityEngine;
 
 public class HeapSort : MonoBehaviour
 {
-    public GameObject[] ObjectArr;
-    public GameObject cube;
-    public int num;
+    public GameObject[] ObjectArr; // array for saving initiated gameobjects
+    public GameObject cube; // for initiating game object
 
-    void Start()
-    {
-        int j = 0;
-        for (int i = 0; i < num; i++)
-        {
-            GameObject go = Instantiate(cube, new Vector3(j, 0, 1), Quaternion.identity) as GameObject;
-            j += 2;
-            go.transform.localScale = new Vector3(1, Random.Range(1, 10), 1);
-            Vector3 tmp = go.transform.position;
-            tmp.y = (go.transform.localScale.y) / 2;
-            go.transform.position = tmp;
-            ObjectArr[i] = go;
-        }
+    public bool condition = false; // indicates that we chose one of the dropdown options
 
-        Update();
-
-    }
-
+    public bool visualize = false; // button for starting to visualize
+    HeapInput cubesNum; // number of cubes to initiate from class HeapInput
+    int num = 0; // saving number of cubes
+    public float updateSpeed; // speed of visualizing
+    public bool newArray = false; // indicator for generating new array
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (condition || (!condition && newArray))
         {
-            HeapSorting();
+            if (newArray) // generate new array
+            {
+                newArray = false;
+            }
+
+            cubesNum = this.gameObject.GetComponent<HeapInput>(); // get cubesnum input from user
+
+            if (num != 0)
+            {
+                for (int i = 0; i < num; i++) // reset number of cubes initiated
+                {
+                    Destroy(ObjectArr[i]);
+                }
+            }
+
+            num = cubesNum.output; // getting cubes number input
+            condition = false;
+
+            int j = (20 - num) / 2;
+            for (int i = 0; i < num; i++) // initiating the cubes
+            {
+                GameObject go = Instantiate(cube, new Vector3(j, 0, 1), Quaternion.identity) as GameObject;
+                j += 2;
+                go.transform.localScale = new Vector3(1, Random.Range(1, 10), 1);
+                Vector3 tmp = go.transform.position;
+                tmp.y = (go.transform.localScale.y) / 2;
+                go.transform.position = tmp;
+                ObjectArr[i] = go;
+            }
+        }
+
+        if (visualize) // visualize = true, sorting the cubes
+        {
+            visualize = false;
+            StartCoroutine(Heap());
+            //Heap();
+
         }
     }
-
-    void HeapSorting()
-    {
-        StartCoroutine(Heap());
-    }
-
     IEnumerator Heap()
     {
         for (int i = num / 2 - 1; i >= 0; i--)
         {
-            StartCoroutine(heapify(ObjectArr, num, i));
-            yield return new WaitForSeconds(4f);
+            StartCoroutine(heapify(num, i));
+            yield return new WaitForSeconds(updateSpeed);
         }
 
         for (int i = num - 1; i > 0; i--)
         {
-
+            yield return new WaitForSeconds(updateSpeed);
             Vector3 tmp = ObjectArr[0].transform.localPosition;
             ObjectArr[0].transform.localPosition = ObjectArr[i].transform.localPosition;
 
+            ObjectArr[0].GetComponent<Renderer>().material.color = Color.cyan;
             Vector3 newfirst = ObjectArr[0].transform.position;
             newfirst.y = (ObjectArr[0].transform.localScale.y) / 2;
             ObjectArr[0].transform.position = newfirst;
+            yield return new WaitForSeconds(updateSpeed);
 
             ObjectArr[i].transform.localPosition = tmp;
 
@@ -63,55 +83,48 @@ public class HeapSort : MonoBehaviour
             newsecond.y = (ObjectArr[i].transform.localScale.y) / 2;
             ObjectArr[i].transform.position = newsecond;
 
+            ObjectArr[i].GetComponent<Renderer>().material.color = Color.white;
+            yield return new WaitForSeconds(updateSpeed);
             GameObject temp = ObjectArr[0];
             ObjectArr[0] = ObjectArr[i];
             ObjectArr[i] = temp;
 
 
-            StartCoroutine(heapify(ObjectArr, i, 0));
+            yield return StartCoroutine(heapify(i, 0));
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(updateSpeed);
     }
 
-    IEnumerator heapify(GameObject[] ObjectArr, int n, int i)
+    public IEnumerator heapify(int n, int i)
     {
-        ObjectArr[i].GetComponent<Renderer>().material.color=Color.green;
-        
         int largest = i;
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
-        yield return new WaitForSeconds(2f);
+        ObjectArr[i].GetComponent<Renderer>().material.color = Color.red;
+        yield return new WaitForSeconds(updateSpeed);
 
-        if(left<n){
-            ObjectArr[left].GetComponent<Renderer>().material.color=Color.yellow;
-        }
 
-        if(right<n){
-            ObjectArr[right].GetComponent<Renderer>().material.color=Color.yellow;
-        }
-        
-        yield return new WaitForSeconds(2f);
 
         if (left < n && ObjectArr[left].transform.localPosition.y > ObjectArr[largest].transform.localPosition.y)
         {
             largest = left;
+            ObjectArr[left].GetComponent<Renderer>().material.color = Color.yellow;
+            yield return new WaitForSeconds(updateSpeed);
         }
 
         if (right < n && ObjectArr[right].transform.localPosition.y > ObjectArr[largest].transform.localPosition.y)
         {
             largest = right;
+            ObjectArr[right].GetComponent<Renderer>().material.color = Color.yellow;
+            yield return new WaitForSeconds(updateSpeed);
         }
-
-        ObjectArr[largest].GetComponent<Renderer>().material.color=Color.red;
-        yield return new WaitForSeconds(2f);
-
         if (largest != i)
         {
             Vector3 tmp = ObjectArr[i].transform.localPosition;
             ObjectArr[i].transform.localPosition = ObjectArr[largest].transform.localPosition;
 
-            Vector3 newfirst = ObjectArr[i].transform.position;
+            Vector3 newfirst = ObjectArr[i].transform.localPosition;
             newfirst.y = (ObjectArr[i].transform.localScale.y) / 2;
             ObjectArr[i].transform.position = newfirst;
 
@@ -125,11 +138,17 @@ public class HeapSort : MonoBehaviour
             ObjectArr[i] = ObjectArr[largest];
             ObjectArr[largest] = temp;
 
-            StartCoroutine(heapify(ObjectArr, n, largest));
+            ObjectArr[i].GetComponent<Renderer>().material.color = Color.white;
+            yield return new WaitForSeconds(updateSpeed);
+            ObjectArr[largest].GetComponent<Renderer>().material.color = Color.white;
+            yield return new WaitForSeconds(updateSpeed);
+
+            yield return StartCoroutine(heapify(n, largest));
+
         }
 
-        ObjectArr[largest].GetComponent<Renderer>().material.color=Color.white;
-        yield return new WaitForSeconds(2f);
+        ObjectArr[largest].GetComponent<Renderer>().material.color = Color.white;
+        yield return new WaitForSeconds(updateSpeed);
 
     }
 }
