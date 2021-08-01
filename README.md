@@ -11,8 +11,11 @@ AlgoVisualizer is developed using Unity and written with c#. UI design was hardc
 <img width="958" alt="OriginalPathScene" src="https://user-images.githubusercontent.com/73337305/127785268-28a45bd3-6baa-4d7f-bc57-da387f937f73.png">
 <img width="958" alt="InfoSortScene" src="https://user-images.githubusercontent.com/73337305/127785348-aceeac5b-5633-49dc-8d4c-dca3111420df.png">
 
+## Technical Documentation
+Technical Documentation was written using Overleaf, Latex editor.
+pdf is attached.
 
-
+## Progress through the semester
 Week 1:
 - Reading about commonly used pathfinding methods.
 - Starting to get familiar with unity and c#.
