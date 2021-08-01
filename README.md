@@ -5,6 +5,8 @@ AlgoVisualizer is a tool developed using Unity to convey a visual illustration o
 Our mission is to implement all useful algorithms, so AlgoVisualizer would contain helpful illustration of those algorithms.
 
 ## Implementation details
+AlgoVisualizer is developed using Unity and written with c#. UI design was hardcoded and useful buttons were added.
+
 
 
 Week 1:
