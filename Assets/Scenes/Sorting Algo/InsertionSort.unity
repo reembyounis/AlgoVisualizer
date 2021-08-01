@@ -465,7 +465,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 192068738}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1379358837}
+        m_TargetAssemblyTypeName: InsertPause, Assembly-CSharp
+        m_MethodName: PathingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &192068738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,7 +598,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 196998625}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1379358837}
+        m_TargetAssemblyTypeName: InsertPause, Assembly-CSharp
+        m_MethodName: SortingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &196998625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4090,7 +4114,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1559911855}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1379358837}
+        m_TargetAssemblyTypeName: InsertPause, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1559911855
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -575,7 +575,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 322307386}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 87366035}
+        m_TargetAssemblyTypeName: AstarPause, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &322307386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2001,12 +2013,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1123800337 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 314703368349082061, guid: e5cbecaba9e7e4e25b739222d077ea3b,
-    type: 3}
-  m_PrefabInstance: {fileID: 314703367013917694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1127555512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2095,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1127555515}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 87366035}
+        m_TargetAssemblyTypeName: AstarPause, Assembly-CSharp
+        m_MethodName: SortingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1127555515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2972,14 +2990,13 @@ MonoBehaviour:
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 256
-  gridWorldSize: {x: 0, y: 0}
   nodeRadius: 0.5
+  grids: {fileID: 776325600085801481, guid: 8c4644ee43aeb422ca1072d43f5e1d69, type: 3}
   Cube: {fileID: 314703368349082061, guid: e5cbecaba9e7e4e25b739222d077ea3b, type: 3}
   spawnValue: {fileID: 2947712949103945722, guid: 5ca9e3e2f19914d6791f3b9c5e451c6e,
     type: 3}
   Sphere: {fileID: 301424400}
   Capsule: {fileID: 1158708340}
-  cube: {fileID: 1123800337}
   condition: 0
   visualize: 0
   plane: {fileID: 961692839}
@@ -2988,6 +3005,7 @@ MonoBehaviour:
   Obstacle: 0
   newPlane: 0
   obstacles: []
+  cube_array: []
 --- !u!114 &1466611990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3111,7 +3129,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1487140089}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 87366035}
+        m_TargetAssemblyTypeName: AstarPause, Assembly-CSharp
+        m_MethodName: PathingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1487140089
 MonoBehaviour:
   m_ObjectHideFlags: 0

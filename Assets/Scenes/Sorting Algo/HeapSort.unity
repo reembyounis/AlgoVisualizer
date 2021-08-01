@@ -610,7 +610,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 318626192}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1926635810}
+        m_TargetAssemblyTypeName: HeapPause, Assembly-CSharp
+        m_MethodName: SortingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &318626192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,7 +1285,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 633755167}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1926635810}
+        m_TargetAssemblyTypeName: HeapPause, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &633755167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,7 +1865,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 793373580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1926635810}
+        m_TargetAssemblyTypeName: HeapPause, Assembly-CSharp
+        m_MethodName: PathingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &793373580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4974,7 +5010,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1390972170}
   m_HandleRect: {fileID: 430156723}
   m_Direction: 1
-  m_MinValue: 0.01
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1

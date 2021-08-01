@@ -640,7 +640,7 @@ Transform:
   m_GameObject: {fileID: 341248545}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.01, y: 1, z: -4.96}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2064,7 +2064,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 966504764}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1921243186}
+        m_TargetAssemblyTypeName: BFSPause, Assembly-CSharp
+        m_MethodName: PathingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &966504764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2638,7 +2650,7 @@ Transform:
   m_GameObject: {fileID: 1259505479}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.9, y: 2, z: 6}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -2994,7 +3006,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1624031262}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1921243186}
+        m_TargetAssemblyTypeName: BFSPause, Assembly-CSharp
+        m_MethodName: MainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1624031262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4172,7 +4196,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1994593783}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1921243186}
+        m_TargetAssemblyTypeName: BFSPause, Assembly-CSharp
+        m_MethodName: SortingMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1994593783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4655,6 +4691,8 @@ MonoBehaviour:
   plane: {fileID: 395800869}
   Sphere: {fileID: 341248545}
   Capsule: {fileID: 1259505479}
+  cube: {fileID: 3601058969104488316, guid: 52ca6d1e09fcd42eaa90444b8c6f4261, type: 3}
+  cube_array: []
 --- !u!4 &2113152001
 Transform:
   m_ObjectHideFlags: 0
