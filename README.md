@@ -8,6 +8,7 @@ Our mission is to implement all useful algorithms, so AlgoVisualizer would conta
 AlgoVisualizer is developed using Unity and written with c#. UI design was hardcoded and useful buttons were added.
 
 <img width="958" alt="OriginalPathScene" src="https://user-images.githubusercontent.com/73337305/127785268-28a45bd3-6baa-4d7f-bc57-da387f937f73.png">
+<img width="958" alt="InfoSortScene" src="https://user-images.githubusercontent.com/73337305/127785348-aceeac5b-5633-49dc-8d4c-dca3111420df.png">
 
 
 
