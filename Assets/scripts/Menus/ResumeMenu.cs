@@ -1,51 +1,27 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ResumeMenu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
-
-    public GameObject pauseMenu;
-    void Update()
+    public GameObject MainMenu;
+    public GameObject Sorting;
+    public GameObject Pathfinding;
+    void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (GameIsPaused)
-            {
-                Resume();
-            }
-
-            else
-            {
-                Pause();
-            }
-        }
+        DontDestroyOnLoad(this);
     }
-
-    public void Resume()
+    public void SortingMenu()
     {
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
-        GameIsPaused = false;
+        MainMenu.SetActive(false);
+        Sorting.SetActive(true);
     }
-
-    void Pause()
+    public void PathfindingMenu()
     {
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
-        GameIsPaused = true;
-    }
+        MainMenu.SetActive(false);
+        Pathfinding.SetActive(true);
 
-    public void LoadMenu()
-    {
-        SceneManager.LoadScene("Menu");
     }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
 }

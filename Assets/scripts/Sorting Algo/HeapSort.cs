@@ -62,20 +62,20 @@ public class HeapSort : MonoBehaviour
         for (int i = num / 2 - 1; i >= 0; i--)
         {
             StartCoroutine(heapify(num, i));
-            yield return new WaitForSeconds(updateSpeed);
         }
 
         for (int i = num - 1; i > 0; i--)
         {
             yield return new WaitForSeconds(updateSpeed);
-            Vector3 tmp = ObjectArr[0].transform.localPosition;
-            ObjectArr[0].transform.localPosition = ObjectArr[i].transform.localPosition;
 
+            Vector3 tmp = ObjectArr[0].transform.localPosition;
+
+            ObjectArr[0].transform.localPosition = ObjectArr[i].transform.localPosition;
             ObjectArr[0].GetComponent<Renderer>().material.color = Color.cyan;
+
             Vector3 newfirst = ObjectArr[0].transform.position;
             newfirst.y = (ObjectArr[0].transform.localScale.y) / 2;
             ObjectArr[0].transform.position = newfirst;
-            yield return new WaitForSeconds(updateSpeed);
 
             ObjectArr[i].transform.localPosition = tmp;
 
@@ -83,7 +83,7 @@ public class HeapSort : MonoBehaviour
             newsecond.y = (ObjectArr[i].transform.localScale.y) / 2;
             ObjectArr[i].transform.position = newsecond;
 
-            ObjectArr[i].GetComponent<Renderer>().material.color = Color.white;
+            //ObjectArr[i].GetComponent<Renderer>().material.color = Color.white;
             yield return new WaitForSeconds(updateSpeed);
             GameObject temp = ObjectArr[0];
             ObjectArr[0] = ObjectArr[i];
@@ -95,32 +95,31 @@ public class HeapSort : MonoBehaviour
         yield return new WaitForSeconds(updateSpeed);
     }
 
-    public IEnumerator heapify(int n, int i)
+    IEnumerator heapify(int n, int i)
     {
         int largest = i;
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
+
         ObjectArr[i].GetComponent<Renderer>().material.color = Color.red;
         yield return new WaitForSeconds(updateSpeed);
-
 
 
         if (left < n && ObjectArr[left].transform.localPosition.y > ObjectArr[largest].transform.localPosition.y)
         {
             largest = left;
             ObjectArr[left].GetComponent<Renderer>().material.color = Color.yellow;
-            yield return new WaitForSeconds(updateSpeed);
         }
 
         if (right < n && ObjectArr[right].transform.localPosition.y > ObjectArr[largest].transform.localPosition.y)
         {
             largest = right;
             ObjectArr[right].GetComponent<Renderer>().material.color = Color.yellow;
-            yield return new WaitForSeconds(updateSpeed);
         }
         if (largest != i)
         {
+            yield return new WaitForSeconds(updateSpeed);
             Vector3 tmp = ObjectArr[i].transform.localPosition;
             ObjectArr[i].transform.localPosition = ObjectArr[largest].transform.localPosition;
 
@@ -138,8 +137,8 @@ public class HeapSort : MonoBehaviour
             ObjectArr[i] = ObjectArr[largest];
             ObjectArr[largest] = temp;
 
+
             ObjectArr[i].GetComponent<Renderer>().material.color = Color.white;
-            yield return new WaitForSeconds(updateSpeed);
             ObjectArr[largest].GetComponent<Renderer>().material.color = Color.white;
             yield return new WaitForSeconds(updateSpeed);
 

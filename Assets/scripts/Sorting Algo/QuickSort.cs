@@ -82,8 +82,9 @@ public class QuickSort : MonoBehaviour
                 ObjectArr[j].GetComponent<Renderer>().material.color = Color.yellow;
                 if (ObjectArr[j].transform.localPosition.y < pivot)
                 {
-                    yield return new WaitForSeconds(updateSpeed);
                     i++;
+                    ObjectArr[i].GetComponent<Renderer>().material.color = Color.yellow;
+                    yield return new WaitForSeconds(updateSpeed);
 
                     tmp = ObjectArr[i].transform.localPosition;
                     ObjectArr[i].transform.localPosition = ObjectArr[j].transform.localPosition;
@@ -103,11 +104,14 @@ public class QuickSort : MonoBehaviour
                     ObjectArr[j] = temp;
 
                     yield return new WaitForSeconds(updateSpeed);
-                    ObjectArr[i].GetComponent<Renderer>().material.color = Color.green;
+                    ObjectArr[i].GetComponent<Renderer>().material.color = Color.cyan;
 
                 }
                 yield return new WaitForSeconds(updateSpeed);
-                ObjectArr[j].GetComponent<Renderer>().material.color = Color.white;
+                if (ObjectArr[j].transform.localPosition.y > pivot)
+                {
+                    ObjectArr[j].GetComponent<Renderer>().material.color = Color.white;
+                }
 
             }
 
@@ -135,8 +139,10 @@ public class QuickSort : MonoBehaviour
             int p = i + 1;
             yield return new WaitForSeconds(updateSpeed);
             yield return StartCoroutine(Quick(p + 1, right));
+            ObjectArr[right].GetComponent<Renderer>().material.color = Color.green;
             yield return new WaitForSeconds(updateSpeed);
             yield return StartCoroutine(Quick(left, p - 1));
+            ObjectArr[p - 1].GetComponent<Renderer>().material.color = Color.green;
         }
     }
 }

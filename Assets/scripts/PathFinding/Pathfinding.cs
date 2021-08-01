@@ -17,7 +17,10 @@ public class Pathfinding : MonoBehaviour
 
     void Update()
     {
-        startToEnd(start.position, end.position);
+        if(grid.visualize){
+            grid.visualize=false;
+            startToEnd(start.position, end.position);
+        }
     }
 
     void startToEnd(Vector3 startPos, Vector3 endPos)
@@ -49,7 +52,8 @@ public class Pathfinding : MonoBehaviour
             if (current == endNode)
             {
                 pathIt(startNode, endNode);
-                return;
+                grid.visualizing();
+                //return;
             }
 
             foreach (Node neighbour in grid.Neighbours(current))

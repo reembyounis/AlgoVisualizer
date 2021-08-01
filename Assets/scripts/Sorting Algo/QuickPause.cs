@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class QuickPause : MonoBehaviour
 {
@@ -44,5 +46,19 @@ public class QuickPause : MonoBehaviour
         play.SetActive(false);
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void SortingMenu()
+    {
+        SceneManager.LoadScene("Sorting");
+    }
+
+    public void PathingMenu()
+    {
+        SceneManager.LoadScene("Pathing");
     }
 }

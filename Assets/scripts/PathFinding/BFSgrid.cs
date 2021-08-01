@@ -43,33 +43,11 @@ public class BFSgrid : MonoBehaviour
     public GameObject Sphere;
     public GameObject Capsule;
     GameObject current;
+    public GameObject cube ;
+    public List<GameObject> cube_array;
 
 
     void Awake()
-    {
-        nodeDiameter = nodeRadius * 2;
-        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-        grid = new BFSnode[gridSizeX, gridSizeY];
-        visited = new bool[gridSizeX, gridSizeY];
-        Update();
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 spawnPos = new Vector3(Random.Range(-Spawn.position.x, Spawn.position.x), 5, Random.Range(-Spawn.position.z, Spawn.position.z));
-            Instantiate(Cube, spawnPos, Quaternion.identity);
-
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CreateGrid();
-        }
-    }
-    /*void Awake()
     {
         Update();
     }
@@ -87,51 +65,58 @@ public class BFSgrid : MonoBehaviour
             {
                 Destroy(obstacles[i]);
             }
+            for (int i = 0; i < cube_array.Count; i++)
+            {
+                Destroy(cube_array[i]);
+            }
 
             nodeDiameter = nodeRadius * 2;
             /*gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);*/
 
-    /*gridSizeX = Mathf.RoundToInt(sizeX / nodeDiameter);
-    gridSizeY = Mathf.RoundToInt(sizeY / nodeDiameter);
-    grid = new BFSnode[gridSizeX, gridSizeY];
-    plane.transform.localScale = new Vector3(gridSizeX / 10, 1, gridSizeY / 10);
-    Sphere.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
-    Capsule.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
+            gridSizeX = Mathf.RoundToInt(sizeX / nodeDiameter);
+            gridSizeY = Mathf.RoundToInt(sizeY / nodeDiameter);
+            grid = new BFSnode[gridSizeX, gridSizeY];
+            visited = new bool[gridSizeX, gridSizeY];
+            plane.transform.localScale = new Vector3(gridSizeX / 10, 1, gridSizeY / 10);
+            Sphere.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
+            Capsule.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
 
-    condition = false;
+            condition = false;
 
-}
+        }
 
-if (Obstacle)
-{
-    Vector3 spawnPos = new Vector3(Random.Range(-sizeX / 2 + 1, sizeX / 2 - 1), 5, Random.Range(-sizeY / 2 + 1, sizeY / 2 - 1));
-    current = Instantiate(Cube, spawnPos, Quaternion.identity);
-    current.GetComponent<Renderer>().material.color = Color.red;
-    obstacles.Add(current);
-    Obstacle = false;
-}
+        if (Obstacle)
+        {
+            Vector3 spawnPos = new Vector3(Random.Range(-sizeX / 2 + 1, sizeX / 2 - 1), 5, Random.Range(-sizeY / 2 + 1, sizeY / 2 - 1));
+            current = Instantiate(Cube, spawnPos, Quaternion.identity);
+            current.GetComponent<Renderer>().material.color = Color.red;
+            obstacles.Add(current);
+            Obstacle = false;
+        }
 
-else if (visualize)
-{
-    CreateGrid();
-}
-}*/
+        else if (visualize)
+        {
+            //Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
+            Vector3 worldBottomLeft = transform.position - Vector3.right * sizeX / 2 - Vector3.forward * sizeY / 2;
+            for (int x = 0; x < gridSizeX; x++)
+            {
+                for (int y = 0; y < gridSizeY; y++)
+                {
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
+                    bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+                    grid[x, y] = new BFSnode(walkable, worldPoint, x, y);
+                }
+            }
+            visualize = false;
+            CreateGrid();
+        }
+    }
+
 
 
     void CreateGrid()
     {
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
-        //Vector3 worldBottomLeft = transform.position - Vector3.right * sizeX / 2 - Vector3.forward * sizeY / 2;
-        for (int x = 0; x < gridSizeX; x++)
-        {
-            for (int y = 0; y < gridSizeY; y++)
-            {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new BFSnode(walkable, worldPoint, x, y);
-            }
-        }
         startToEnd(start.position, end.position);
     }
 
@@ -142,7 +127,6 @@ else if (visualize)
 
 
         addFirstNode(startNode.x, startNode.y);
-        Debug.Log("here");
         done.Add(grid[startNode.x, startNode.y]);
 
         while (rows.Count > 0 || cols.Count > 0)
@@ -167,6 +151,8 @@ else if (visualize)
                 moves++;
             }
         }
+
+        visualizeit();
     }
 
     List<BFSnode> Neighbours(BFSnode node)
@@ -213,24 +199,22 @@ else if (visualize)
 
     BFSnode NodeFromWorldPoint(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
+        /*float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
         float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
-        return grid[x, y];
+        return grid[x, y];*/
 
-        /*float percentX = (worldPosition.x + sizeX / 2) / sizeX;
+        float percentX = (worldPosition.x + sizeX / 2) / sizeX;
         float percentY = (worldPosition.z + sizeY / 2) / sizeY;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
-
         int x = Mathf.RoundToInt((sizeX - 1) * percentX);
         int y = Mathf.RoundToInt((sizeY - 1) * percentY);
-
-        return grid[x, y];*/
+        return grid[x, y];
     }
 
     void pathIt(BFSnode startNode, BFSnode endNode)
@@ -245,28 +229,33 @@ else if (visualize)
         path.Reverse();
     }
 
-    void OnDrawGizmos()
+    //void OnDrawGizmos()
+    void visualizeit()
     {
-        //Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
         if (grid != null)
         {
-            foreach (BFSnode n in done)
+            foreach (BFSnode n in grid)
             {
-                Gizmos.color = Color.green;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+                cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
+                cube_array.Add(cube);
+                cube.transform.localScale = Vector3.one * (nodeDiameter - .05f);
+
+                n.game = cube;
 
                 if (!n.walkable)
                 {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+                    n.game.GetComponent<Renderer>().material.color = Color.red;
                 }
-            }
-
-            foreach (BFSnode n in path)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+                if (done.Contains(n))
+                {
+                    n.game.GetComponent<Renderer>().material.color = Color.green;
+                }
+                if (path.Contains(n))
+                {
+                    n.game.GetComponent<Renderer>().material.color = Color.black;
+                }
             }
         }
     }
+
 }

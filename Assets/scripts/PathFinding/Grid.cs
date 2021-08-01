@@ -7,9 +7,10 @@ public class Grid : MonoBehaviour
 {
 
     public LayerMask unwalkableMask;
-    public Vector2 gridWorldSize;
+    Vector2 gridWorldSize;
     public float nodeRadius;
     Node[,] grid;
+    public GameObject grids;
     float nodeDiameter;
     int gridSizeX, gridSizeY;
     public GameObject Cube;
@@ -19,7 +20,7 @@ public class Grid : MonoBehaviour
     public Transform spawnValue;
     public GameObject Sphere;
     public GameObject Capsule;
-    public GameObject cube;
+    GameObject cube;
     GameObject current;
     Vector3 newpos = new Vector3(0, 0, 0);
     public bool condition = false; // indicates that we chose one of the dropdown options
@@ -34,6 +35,7 @@ public class Grid : MonoBehaviour
     public bool Obstacle = false;
     public bool newPlane = false;
     public List<GameObject> obstacles;
+    public List<GameObject> cube_array;
 
     void Awake()
     {
@@ -52,6 +54,11 @@ public class Grid : MonoBehaviour
             for (int i = 0; i < obstacles.Count; i++)
             {
                 Destroy(obstacles[i]);
+            }
+
+            for (int i = 0; i < cube_array.Count; i++)
+            {
+                Destroy(cube_array[i]);
             }
 
             nodeDiameter = nodeRadius * 2;
@@ -76,6 +83,7 @@ public class Grid : MonoBehaviour
             current.GetComponent<Renderer>().material.color = Color.red;
             obstacles.Add(current);
             Obstacle = false;
+
         }
 
         else if (visualize)
@@ -92,7 +100,7 @@ public class Grid : MonoBehaviour
                     grid[x, y] = new Node(walkable, worldPoint, x, y);
                 }
             }
-            visualize = false;
+            //visualize = false;
         }
     }
     public List<Node> Neighbours(Node node)
@@ -139,131 +147,40 @@ public class Grid : MonoBehaviour
         StartCoroutine(draw());
     }*/
 
-    void OnDrawGizmos()
+    //void OnDrawGizmos()
+    public void visualizing()
     {
-        //Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        open.Reverse();
         if (grid != null)
         {
             foreach (Node n in grid)
             {
-                /*cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
+                cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
+                cube_array.Add(cube);
                 cube.transform.localScale = Vector3.one * (nodeDiameter - .05f);
 
-                n.game = cube;*/
+                n.game = cube;
 
-                /*if (!n.walkable)
+                if (!n.walkable)
                 {
-                    //n.game.GetComponent<Renderer>().material.color = Color.red;
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .05f));
-                }*/
+                    n.game.GetComponent<Renderer>().material.color = Color.red;
+                }
+                if (open.Contains(n))
+                {
+                    n.game.GetComponent<Renderer>().material.color = Color.green;
+                }
+                if (pathing.Contains(n))
+                {
+                    n.game.GetComponent<Renderer>().material.color = Color.black;
+                }
             }
-        }
-        List<Node> left = new List<Node>();
-        List<Node> right = new List<Node>();
-
-        for (int i = gridSizeX - 1; i >= 0; i--)
-        {
-            int flag = 0;
-            for (int j = gridSizeY - 1; j >= 0; j--)
+            /*foreach (Node n in open)
             {
-
-                if (open.Contains(grid[i, j]) && flag == 0)
-                {
-                    left.Add(grid[i, j]);
-                    if (pathing.Contains(grid[i, j]))
-                    {
-                        flag = 1;
-                    }
-                }
-
-                else if (open.Contains(grid[i, j]) && flag == 1)
-                {
-                    right.Add(grid[i, j]);
-                }
+                n.game.GetComponent<Renderer>().material.color = Color.green;
             }
-            flag = 0;
-
-            int l = 0, r = 0;
-            left.Reverse();
-            while (l < left.Count || r < right.Count)
-            {
-                if (l == left.Count)
-                {
-                    /*if ((r + 1) < right.Count)
-                    {
-                        Debug.DrawLine(right[r].worldPosition, right[r + 1].worldPosition, Color.green);
-                    }*/
-                    newpos = right[r].worldPosition;
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawCube(newpos, Vector3.one * (nodeDiameter - .1f));
-                    //right[r].game.GetComponent<Renderer>().material.color = Color.green;
-                    r++;
-                }
-
-                else if (r == right.Count)
-                {
-                    /*if ((l + 1) < left.Count)
-                    {
-                        Debug.DrawLine(left[l].worldPosition, left[l + 1].worldPosition, Color.green);
-                    }*/
-                    newpos = left[l].worldPosition;
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawCube(newpos, Vector3.one * (nodeDiameter - .1f));
-                    //left[l].game.GetComponent<Renderer>().material.color = Color.green;
-
-                    l++;
-                }
-
-                else
-                {
-
-                    /*if ((r + 1) < right.Count)
-                    {
-                        Debug.DrawLine(right[r].worldPosition, right[r + 1].worldPosition, Color.green);
-                    }
-
-                    if ((l + 1) < left.Count)
-                    {
-                        Debug.DrawLine(left[l].worldPosition, left[l + 1].worldPosition, Color.green);
-                    }*/
-
-                    Vector3 newposright = right[r].worldPosition;
-                    Vector3 newposleft = left[l].worldPosition;
-
-
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawCube(newposright, Vector3.one * (nodeDiameter - .1f));
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawCube(newposleft, Vector3.one * (nodeDiameter - .1f));
-
-                    /*right[r].game.GetComponent<Renderer>().material.color = Color.green;
-                    left[l].game.GetComponent<Renderer>().material.color = Color.green;*/
-                    r++;
-                    l++;
-                }
-            }
-
             foreach (Node n in pathing)
             {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-
-            }
-
-            /*foreach (Node n in pathing)
-            {
-
-                Gizmos.color = Color.black;
-                Vector3 newpos = n.worldPosition;
-                newpos.y = 0f;
-                Gizmos.DrawCube(newpos, Vector3.one * (nodeDiameter - .05f));
-
+                n.game.GetComponent<Renderer>().material.color = Color.black;
             }*/
-
-            /*left.Clear();
-            right.Clear();*/
         }
     }
 

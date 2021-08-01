@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DFSgrid : MonoBehaviour
 {
@@ -88,6 +89,7 @@ public class DFSgrid : MonoBehaviour
             gridSizeX = Mathf.RoundToInt(sizeX / nodeDiameter);
             gridSizeY = Mathf.RoundToInt(sizeY / nodeDiameter);
             grid = new DFSnode[gridSizeX, gridSizeY];
+            visited = new bool[gridSizeX, gridSizeY];
             plane.transform.localScale = new Vector3(gridSizeX / 10, 1, gridSizeY / 10);
             Sphere.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
             Capsule.transform.localPosition = new Vector3(Random.Range(-sizeX / 2 + 2, sizeX / 2 - 2), 1.5f, Random.Range(-sizeY / 2 + 2, sizeY / 2 - 2));
@@ -107,38 +109,22 @@ public class DFSgrid : MonoBehaviour
 
         else if (visualize)
         {
-            visualize = false;
-            CreateGrid();
-        }
-    }
-
-    void CreateGrid()
-    {
-        //Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
-        Vector3 worldBottomLeft = transform.position - Vector3.right * sizeX / 2 - Vector3.forward * sizeY / 2;
-        for (int x = 0; x < gridSizeX; x++)
-        {
-            for (int y = 0; y < gridSizeY; y++)
+            Vector3 worldBottomLeft = transform.position - Vector3.right * sizeX / 2 - Vector3.forward * sizeY / 2;
+            for (int x = 0; x < gridSizeX; x++)
             {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new DFSnode(walkable, worldPoint, x, y);
+                for (int y = 0; y < gridSizeY; y++)
+                {
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
+                    bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+                    grid[x, y] = new DFSnode(walkable, worldPoint, x, y);
+                }
             }
+
+            //visualize = false;
         }
-
-        startToEnd(start.position, end.position);
     }
 
-    void startToEnd(Vector3 startPos, Vector3 endPos)
-    {
-        DFSnode startNode = NodeFromWorldPoint(startPos);
-        DFSnode endNode = NodeFromWorldPoint(endPos);
-
-        DFS(startNode.x, startNode.y, endNode);
-    }
-
-
-    void DFS(int x, int y, DFSnode end)
+    public void DFS(int x, int y, DFSnode end)
     {
         if (grid[x, y] == end)
         {
@@ -203,17 +189,38 @@ public class DFSgrid : MonoBehaviour
         return grid[x, y];
     }
 
-    void OnDrawGizmos()
+    //void OnDrawGizmos()
+    public void visualizeit()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+        /*Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
         if (grid != null)
         {
             foreach (DFSnode n in path)
             {
-                Debug.Log("here");
                 Gizmos.color = Color.green;
                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
             }
+        }*/
+
+        if (grid != null)
+        {
+            foreach (DFSnode n in grid)
+            {
+                GameObject cube = Instantiate(grids, n.worldPosition, Quaternion.identity);
+                cube.transform.localScale = Vector3.one * (nodeDiameter - .05f);
+
+                n.game = cube;
+
+                if (!n.walkable)
+                {
+                    n.game.GetComponent<Renderer>().material.color = Color.red;
+                }
+            }
+        }
+
+        foreach (DFSnode n in path)
+        {
+            n.game.GetComponent<Renderer>().material.color = Color.green;
         }
     }
 
